@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Pengasuh Pesantren - Infografis Interaktif ✨</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0056b3',
+                            dark: '#003366',
+                            gold: '#FFD700',
+                            light: '#E3F2FD',
+                            accent: '#FF6B6B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container { height: 400px; }
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0056b3; border-radius: 5px; }
+        
+        body { background-color: #F8FAFC; scroll-behavior: smooth; }
+
+        .ai-gradient {
+            background: linear-gradient(135deg, #0056b3 0%, #003366 100%);
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- Header -->
+    <header class="bg-brand-blue text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-serif font-bold tracking-wide">BINA SANTRI</h1>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#values" class="hover:text-brand-gold transition">Nilai Utama</a>
+                <a href="#communication" class="hover:text-brand-gold transition">Komunikasi</a>
+                <a href="#routine" class="hover:text-brand-gold transition">Rutinitas</a>
+                <a href="#ai-tools" class="text-brand-gold font-bold">✨ Fitur AI</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-brand-dark text-white py-16 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="inline-block bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-xs font-bold mb-4 uppercase tracking-wider">Handout Pengasuh Baru</span>
+            <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6 leading-tight">Membangun Lingkungan Pesantren yang Kuat & Beradab</h2>
+            <p class="text-lg md:text-xl text-brand-light mb-8 max-w-2xl mx-auto">
+                "Sungguh Kami telah memuliakan anak Adam." (Al-Isra: 70).<br>
+                Tugas pengasuh bukan menekan, tapi menumbuhkan.
+            </p>
+        </div>
+    </section>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-20">
+
+        <!-- AI TOOLS SECTION ✨ -->
+        <section id="ai-tools" class="scroll-mt-24">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold text-brand-dark mb-3">Asisten Cerdas Pengasuh ✨</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">Gunakan bantuan AI untuk menyelesaikan masalah santri secara bijak atau merefleksikan pembinaan Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- AI Case Resolver Card -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-100 flex flex-col">
+                    <div class="ai-gradient p-6 text-white">
+                        <h4 class="text-xl font-bold flex items-center">
+                            <span class="mr-2">✨</span> AI Resolusi Kasus
+                        </h4>
+                        <p class="text-blue-100 text-sm mt-1">Dapatkan saran solusi untuk masalah spesifik santri.</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <textarea id="case-input" placeholder="Contoh: Ada santri yang sering terlambat jamaah karena asyik mengobrol di kamar..." class="w-full h-32 p-3 border rounded-lg focus:ring-2 focus:ring-brand-blue focus:outline-none mb-4 text-sm"></textarea>
+                        <button onclick="resolveCase()" id="solve-btn" class="bg-brand-gold text-brand-dark font-bold py-3 px-6 rounded-lg hover:bg-yellow-400 transition flex items-center justify-center">
+                            <span>Selesaikan Kasus ✨</span>
+                        </button>
+                        <div id="case-result" class="mt-4 p-4 bg-blue-50 rounded-lg text-sm text-gray-700 hidden leading-relaxed border border-blue-100"></div>
+                    </div>
+                </div>
+
+                <!-- AI Reflection Partner -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-100 flex flex-col">
+                    <div class="bg-slate-800 p-6 text-white">
+                        <h4 class="text-xl font-bold flex items-center">
+                            <span class="mr-2">✨</span> AI Partner Refleksi
+                        </h4>
+                        <p class="text-slate-300 text-sm mt-1">Evaluasi hari ini untuk menjadi pengasuh yang lebih baik.</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <textarea id="reflection-input" placeholder="Tulis apa yang Anda rasakan hari ini, pencapaian, atau kegagalan dalam membina..." class="w-full h-32 p-3 border rounded-lg focus:ring-2 focus:ring-slate-500 focus:outline-none mb-4 text-sm"></textarea>
+                        <button onclick="analyzeReflection()" id="reflect-btn" class="bg-brand-blue text-white font-bold py-3 px-6 rounded-lg hover:bg-brand-dark transition flex items-center justify-center">
+                            <span>Analisis Refleksi ✨</span>
+                        </button>
+                        <div id="reflection-result" class="mt-4 p-4 bg-slate-50 rounded-lg text-sm text-gray-700 hidden leading-relaxed border border-slate-200"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: CORE VALUES -->
+        <section id="values" class="scroll-mt-24">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold text-brand-dark mb-3">3 Pilar Nilai Pembinaan</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">Pondasi utama dalam membentuk karakter santri sesuai panduan Muqoddimah.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-md p-8 border-t-4 border-brand-gold">
+                    <div class="text-6xl mb-4 text-center">👑</div>
+                    <h4 class="text-xl font-bold text-brand-blue text-center mb-2">Karamah</h4>
+                    <p class="text-sm text-center text-gray-500 font-semibold mb-4">"Martabat & Harga Diri"</p>
+                    <ul class="text-sm space-y-2 text-gray-700">
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">➤</span> Kejujuran mutlak.</li>
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">➤</span> Menjaga amanah kelas.</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-8 border-t-4 border-brand-blue">
+                    <div class="text-6xl mb-4 text-center">🛡️</div>
+                    <h4 class="text-xl font-bold text-brand-blue text-center mb-2">Haya'</h4>
+                    <p class="text-sm text-center text-gray-500 font-semibold mb-4">"Malu Berbuat Buruk"</p>
+                    <ul class="text-sm space-y-2 text-gray-700">
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">➤</span> Adab bicara santun.</li>
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">➤</span> Kesopanan berpakaian.</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-8 border-t-4 border-brand-gold">
+                    <div class="text-6xl mb-4 text-center">🤝</div>
+                    <h4 class="text-xl font-bold text-brand-blue text-center mb-2">Pemaaf</h4>
+                    <p class="text-sm text-center text-gray-500 font-semibold mb-4">"Kelapangan Hati"</p>
+                    <ul class="text-sm space-y-2 text-gray-700">
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">➤</span> Empati tinggi.</li>
+                        <li class="flex items-start"><span class="text-brand-gold mr-2">➤</span> Tidak menyimpan dendam.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: COMMUNICATION STRATEGY -->
+        <section id="communication" class="bg-white rounded-2xl shadow-lg p-8 md:p-12 scroll-mt-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-bold text-brand-dark mb-4">Proporsi Komunikasi Ideal</h3>
+                    <p class="text-gray-600 mb-6 text-justify">
+                        Berdasarkan SOP pembinaan, pengasuh disarankan lebih banyak mendengar daripada menghakimi. Teguran keras hanya digunakan sebagai langkah darurat terakhir.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="communicationChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-xl border-l-8 border-brand-blue">
+                    <h4 class="font-bold text-brand-dark mb-4">Hierarki Respon Pengasuh</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-center p-2 bg-white rounded shadow-sm">
+                            <span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center mr-3 font-bold">1</span>
+                            <span class="text-sm">Dialog Personal & Mendengar</span>
+                        </li>
+                        <li class="flex items-center p-2 bg-white rounded shadow-sm">
+                            <span class="w-8 h-8 bg-blue-400 text-white rounded-full flex items-center justify-center mr-3 font-bold">2</span>
+                            <span class="text-sm">Apresiasi Perubahan Kecil</span>
+                        </li>
+                        <li class="flex items-center p-2 bg-white rounded shadow-sm">
+                            <span class="w-8 h-8 bg-yellow-400 text-brand-dark rounded-full flex items-center justify-center mr-3 font-bold">3</span>
+                            <span class="text-sm">Nasihat Berbasis Nilai</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-brand-dark text-white py-8 text-center mt-12">
+        <p class="font-serif font-bold text-lg mb-2">BINA SANTRI</p>
+        <p class="text-brand-light text-sm italic">"Membina dengan hati, menumbuhkan dengan budi."</p>
+    </footer>
+
+    <!-- SCRIPT SECTION -->
+    <script>
+        const apiKey = ""; // Diset otomatis oleh lingkungan
+
+        async function callGemini(prompt, systemInstruction) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+
+            let delay = 1000;
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error('API Error');
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text;
+                } catch (e) {
+                    if (i === 4) return "Maaf, sistem sedang sibuk. Silakan coba beberapa saat lagi.";
+                    await new Promise(r => setTimeout(r, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        async function resolveCase() {
+            const input = document.getElementById('case-input').value;
+            const resultDiv = document.getElementById('case-result');
+            const btn = document.getElementById('solve-btn');
+            if (!input) return;
+
+            btn.disabled = true;
+            btn.innerHTML = "Sedang Berpikir... ✨";
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = "Menganalisis kasus berdasarkan nilai Karamah, Haya', dan Pemaaf...";
+
+            const systemPrompt = "Anda adalah pakar pengasuhan pesantren yang bijaksana. Gunakan filosofi 'Karamah' (menjaga martabat), 'Haya' (membangun rasa malu berbuat buruk), dan 'Pemaaf' (empati). Berikan solusi praktis 3-4 langkah untuk kasus yang diberikan pengasuh. Gunakan bahasa Indonesia yang santun dan mengayun.";
+            
+            const response = await callGemini(input, systemPrompt);
+            resultDiv.innerHTML = response.replace(/\n/g, '<br>');
+            btn.disabled = false;
+            btn.innerHTML = "Selesaikan Kasus ✨";
+        }
+
+        async function analyzeReflection() {
+            const input = document.getElementById('reflection-input').value;
+            const resultDiv = document.getElementById('reflection-result');
+            const btn = document.getElementById('reflect-btn');
+            if (!input) return;
+
+            btn.disabled = true;
+            btn.innerHTML = "Sedang Merenung... ✨";
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = "Menganalisis refleksi harian Anda...";
+
+            const systemPrompt = "Anda adalah mentor senior bagi pengasuh pesantren. Analisis tulisan refleksi mereka. Berikan apresiasi atas apa yang sudah baik, dan berikan 1 saran perbaikan untuk besok agar lebih sesuai dengan nilai pembinaan karakter. Gunakan nada bicara yang hangat dan menyemangati.";
+            
+            const response = await callGemini(input, systemPrompt);
+            resultDiv.innerHTML = response.replace(/\n/g, '<br>');
+            btn.disabled = false;
+            btn.innerHTML = "Analisis Refleksi ✨";
+        }
+
+        // --- CHART: COMMUNICATION STRATEGY ---
+        window.onload = function() {
+            const ctxComm = document.getElementById('communicationChart').getContext('2d');
+            new Chart(ctxComm, {
+                type: 'doughnut',
+                data: {
+                    labels: ["Mendengar", "Apresiasi", "Nasihat", "Teguran"],
+                    datasets: [{
+                        data: [40, 30, 20, 10],
+                        backgroundColor: ['#2563EB', '#60A5FA', '#FACC15', '#EF4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
